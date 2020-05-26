@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+var version = "1.0.0"
+
 var inputPath, outputPath, channels string
 var spread, threshold float64
 var downscale int
@@ -19,7 +21,7 @@ var canOverwrite bool
 var channelFlags [4]bool
 
 func main() {
-	fmt.Println("=== SDF Generator (github.com/maxfish/sdf-generator) ===")
+	fmt.Printf("=== SDF Generator v%s (github.com/maxfish/sdf-generator) ===\n", version)
 
 	flag.StringVar(&inputPath, "input", "", "Specify an input filename or a folder path.")
 	flag.StringVar(&outputPath, "output", "", "Specify an output filename or a folder path. If input is a path then output must be a path.")
