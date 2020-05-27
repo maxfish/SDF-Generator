@@ -7,12 +7,12 @@ import (
 	"image/color"
 )
 
-func GenerateDistanceFieldImage(inputImage image.Image, downscale int, spread float64, sourceChannels [4]bool, threshold float64) image.Image {
-	grid := gridFromImage(inputImage, sourceChannels, threshold)
+func GenerateDistanceFieldImage(inputImage image.Image, downscale int, spread float64, sourceChannels [4]bool, threshold float64, crop bool) image.Image {
+	grid := gridFromImage(inputImage, sourceChannels, threshold, crop)
 	return sdfFromGrid(grid, downscale, spread)
 }
 
-func gridFromImage(inputImage image.Image, sourceChannels [4]bool, threshold float64) *BoolGrid {
+func gridFromImage(inputImage image.Image, sourceChannels [4]bool, threshold float64, crop bool) *BoolGrid {
 	inputWidth, inputHeight := inputImage.Bounds().Max.X, inputImage.Bounds().Max.Y
 	grid := NewBoolGrid(inputWidth, inputHeight)
 	intThreshold := uint32(threshold * math.MaxUint16)
@@ -29,6 +29,10 @@ func gridFromImage(inputImage image.Image, sourceChannels [4]bool, threshold flo
 				grid.Set(true, x, y)
 			}
 		}
+	}
+
+	if crop {
+		return grid.Crop()
 	}
 
 	return grid

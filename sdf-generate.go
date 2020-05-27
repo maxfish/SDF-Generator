@@ -16,7 +16,7 @@ var version = "1.0.0"
 var inputPath, outputPath, channels string
 var spread, threshold float64
 var downscale int
-var canOverwrite bool
+var canOverwrite, crop bool
 
 var channelFlags [4]bool
 
@@ -30,6 +30,7 @@ func main() {
 	flag.StringVar(&channels, "channels", "A", "Specify which channels of the input image can contribute to defining the \"inner\" area of the shape.\nAccepted values are R,G,B,A and they can be specified separated with a comma.\nE.g. 'R,A' means that the algorithm will consider a pixel \"inside\" the shape if the Red channel, or the Alpha channel, are above the threshold. ")
 	flag.Float64Var(&threshold, "threshold", 0.5, "Specify the threshold applied to the channels for one pixel to be considered \"inside\" the source shape.\nThe accepted values go from 0.0 to 1.0.")
 	flag.BoolVar(&canOverwrite, "overwrite", false, "Specify if the output file, when it already exists, can be overwritten.\nWARNING: this flag is applied to the whole operation and it can delete many pre-existing images.")
+	flag.BoolVar(&crop, "crop", false, "Specify if the resulting image should be cropped.")
 	flag.Parse()
 
 	if inputPath == "" {
@@ -109,7 +110,7 @@ func convertFile(inputFilename string, outputFilename string) {
 	_ = inputFile.Close()
 
 	// generate the signed distance field image
-	outputImage := sdf.GenerateDistanceFieldImage(inputImage, downscale, spread, channelFlags, threshold)
+	outputImage := sdf.GenerateDistanceFieldImage(inputImage, downscale, spread, channelFlags, threshold, crop)
 
 	// create output file
 	outputFile, err := os.Create(outputFilename)

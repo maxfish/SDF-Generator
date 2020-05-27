@@ -17,6 +17,9 @@ Usage of ./sdf-generate:
         E.g. 'R,A' means that the algorithm will consider a pixel "inside" the shape if the Red channel,
         or the Alpha channel, are above the threshold.  (default "A")
 
+  -crop
+    	Specify if the resulting image should be cropped.
+
   -downscale int
     	Sets the factor by which to downscale the image during processing. The output image will be smaller
         than the input image by this factor, rounded downwards. Note: For greater accuracy, images to be used
