@@ -31,7 +31,7 @@ func (m *BoolGrid) At(x, y int) bool {
 func (m *BoolGrid) Crop() *BoolGrid {
 	// Scan the grid to find the first non-empty rows/columns from each side
 	y1 := -1
-	y1Loop:
+y1Loop:
 	for y := 0; y < m.H; y++ {
 		for x := 0; x < m.W; x++ {
 			if m.grid[y*m.W+x] {
@@ -41,7 +41,7 @@ func (m *BoolGrid) Crop() *BoolGrid {
 		}
 	}
 	y2 := m.H
-	y2Loop:
+y2Loop:
 	for y := m.H - 1; y >= 0; y-- {
 		for x := 0; x < m.W; x++ {
 			if m.grid[y*m.W+x] {
@@ -51,7 +51,7 @@ func (m *BoolGrid) Crop() *BoolGrid {
 		}
 	}
 	x1 := -1
-	x1Loop:
+x1Loop:
 	for x := 0; x < m.W; x++ {
 		for y := 0; y < m.H; y++ {
 			if m.grid[y*m.W+x] {
@@ -61,7 +61,7 @@ func (m *BoolGrid) Crop() *BoolGrid {
 		}
 	}
 	x2 := m.W
-	x2Loop:
+x2Loop:
 	for x := m.W - 1; x >= 0; x-- {
 		for y := 0; y < m.H; y++ {
 			if m.grid[y*m.W+x] {
