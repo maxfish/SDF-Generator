@@ -3,12 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/maxfish/SDF-Generator/sdf"
 	"image"
 	"image/png"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/maxfish/SDF-Generator/sdf"
 )
 
 var version = "1.0.0"
@@ -16,7 +17,7 @@ var version = "1.0.0"
 var inputPath, outputPath, channels string
 var spread, threshold float64
 var downscale int
-var canOverwrite, crop bool
+var canOverwrite, crop, outAlpha bool
 
 var channelFlags [4]bool
 
@@ -31,6 +32,7 @@ func main() {
 	flag.Float64Var(&threshold, "threshold", 0.5, "Specify the threshold applied to the channels for one pixel to be considered \"inside\" the source shape.\nThe accepted values go from 0.0 to 1.0.")
 	flag.BoolVar(&canOverwrite, "overwrite", false, "Specify if the output file, when it already exists, can be overwritten.\nWARNING: this flag is applied to the whole operation and it can delete many pre-existing images.")
 	flag.BoolVar(&crop, "crop", false, "Specify if the resulting image should be cropped.")
+	flag.BoolVar(&outAlpha, "alpha", false, "Output to alpha channel.")
 	flag.Parse()
 
 	if inputPath == "" {
@@ -111,6 +113,9 @@ func convertFile(inputFilename string, outputFilename string) {
 
 	// generate the signed distance field image
 	outputImage := sdf.GenerateDistanceFieldImage(inputImage, downscale, spread, channelFlags, threshold, crop)
+	if outAlpha {
+		outputImage = sdf.AlphaFromGrey(outputImage)
+	}
 
 	// create output file
 	outputFile, err := os.Create(outputFilename)
