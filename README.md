@@ -42,6 +42,9 @@ Usage of ./sdf-generate:
   -threshold float
     	Specify the threshold applied to the channels for one pixel to be considered "inside" the source shape.
     	The accepted values go from 0.0 to 1.0. (default 0.5)
+
+  -alpha bool
+    	Output the signed distance field to the alpha channel instead of using gray color values. (default false)
 ```
 
 ## Example

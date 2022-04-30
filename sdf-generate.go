@@ -12,7 +12,7 @@ import (
 	"github.com/maxfish/SDF-Generator/sdf"
 )
 
-var version = "1.0.0"
+var version = "1.1.0"
 
 var inputPath, outputPath, channels string
 var spread, threshold float64
